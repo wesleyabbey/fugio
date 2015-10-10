@@ -75,7 +75,7 @@ $(function() {
             value: 30
         }, {
             label: "Mail-Order Sales",
-            value: 20
+            value: 100
         }],
         resize: true
     });
