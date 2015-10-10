@@ -26,7 +26,7 @@
 
 </head>
 <body>
-
+    <p class="tester"></p>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -363,6 +363,13 @@
     <script src="js/plugins/morris/raphael.min.js"></script>
     <script src="js/plugins/morris/morris.min.js"></script>
     <script src="js/plugins/morris/morris-data.js"></script>
+    <script>
+        $.get( "http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563?key=18cdc5d0c87e95621c50a23782e41559", function( data ) {
+          $( ".navbar-brand" ).text(data.nickname);
+          // var d = JSON.parse(data);
+          console.log( data.nickname );
+        });
+    </script>
 
 </body>
 
