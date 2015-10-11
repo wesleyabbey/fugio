@@ -1,6 +1,94 @@
 // Morris.js Charts sample data for SB Admin template
+$(document).ready(function() {
 
-$(function() {
+    // Donut Chart Initialization
+    var myDonut = Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "Food",
+            value: 1
+        }, {
+            label: "Rent",
+            value: 3
+        }, {
+            label: "Uncategorized",
+            value: 2
+        }, {
+            label: "Gas",
+            value: 2
+        }],
+        resize: true
+    });
+
+    var categoryTotals = [{
+        label: 'Food',
+        value: 1
+    }, {
+        label: 'Rent',
+        value: 1
+    }, {
+        label: 'Uncategorized',
+        value: 1
+    }, {
+        label: 'Gas',
+        value: 1
+    }];
+
+    $.get("http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563/purchases?key=18cdc5d0c87e95621c50a23782e41559", function(data) {
+        // Return a json object containing all the appropriate purchases
+        // loop through each purchase and append amounts to the labels
+        var length = data.length;
+        var categoryLength = categoryTotals.length;
+        var foodReg = /food/;
+        var gasReg = /gas/;
+        var rentReg = /rent/;
+
+        for (var i = 0; i < length; i++) {
+            var purchase = data[i];
+            if (foodReg.test(purchase["description"])) {
+
+                for (var j = 0; j < categoryLength; j++) {
+                    if (categoryTotals[j].label === 'Food') {
+                        categoryTotals[j].value += purchase["amount"];
+                    }
+                }
+            } else if (rentReg.test(purchase["description"])) {
+
+                for (var j = 0; j < categoryLength; j++) {
+                    if (categoryTotals[j].label === 'Rent') {
+                        categoryTotals[j].value += purchase["amount"];
+                    }
+                }
+            } else if (gasReg.test(purchase["description"])) {
+
+                for (var j = 0; j < categoryLength; j++) {
+                    if (categoryTotals[j].label === 'Gas') {
+                        categoryTotals[j].value += purchase["amount"];
+                    }
+                }
+            } else {
+                for (var j = 0; j < categoryLength; j++) {
+                    if (categoryTotals[j].label === 'Uncategorized') {
+                        categoryTotals[j].value += purchase["amount"];
+                    }
+                }
+            }
+        }
+
+        myDonut.setData([{
+            label: categoryTotals[0]["label"],
+            value: categoryTotals[0]["value"]
+        }, {
+            label: categoryTotals[1]["label"],
+            value: categoryTotals[1]["value"]
+        }, {
+            label: categoryTotals[2]["label"],
+            value: categoryTotals[2]["value"]
+        }, {
+            label: categoryTotals[3]["label"],
+            value: categoryTotals[3]["value"]
+        }]);
+    });
 
     // Area Chart
     Morris.Area({
@@ -61,22 +149,6 @@ $(function() {
         labels: ['iPhone', 'iPad', 'iPod Touch'],
         pointSize: 2,
         hideHover: 'auto',
-        resize: true
-    });
-
-    // Donut Chart
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 100
-        }],
         resize: true
     });
 
