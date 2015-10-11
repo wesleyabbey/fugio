@@ -1,6 +1,10 @@
 // Morris.js Charts sample data for SB Admin template
 $(document).ready(function() {
 
+
+
+
+
     // Donut Chart Initialization
     var myDonut = Morris.Donut({
         element: 'morris-donut-chart',
@@ -43,6 +47,16 @@ $(document).ready(function() {
         var gasReg = /gas/;
         var rentReg = /rent/;
 
+        var j = 0;
+        for (var i = data.length - 1; j < 8; i--) {
+            var date = data[i]["purchase_date"].substring(0, 11);
+            var time = data[i]["purchase_date"].substring(11);
+            var amount = data[i]["amount"];
+            var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>" 
+            $(".table tbody").append(line);
+            j++;
+        }
+
         for (var i = 0; i < length; i++) {
             var purchase = data[i];
             if (foodReg.test(purchase["description"])) {
@@ -76,16 +90,16 @@ $(document).ready(function() {
         }
 
         myDonut.setData([{
-            label: categoryTotals[0]["label"],
+            label: '$' + categoryTotals[0]["label"],
             value: categoryTotals[0]["value"]
         }, {
-            label: categoryTotals[1]["label"],
+            label: '$' + categoryTotals[1]["label"],
             value: categoryTotals[1]["value"]
         }, {
-            label: categoryTotals[2]["label"],
+            label: '$' + categoryTotals[2]["label"],
             value: categoryTotals[2]["value"]
         }, {
-            label: categoryTotals[3]["label"],
+            label: '$' + categoryTotals[3]["label"],
             value: categoryTotals[3]["value"]
         }]);
     });
