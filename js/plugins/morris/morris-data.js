@@ -102,10 +102,12 @@ $(document).ready(function() {
         var rentReg = /rent/;
 
 
+        // Set purchase total on the Dashboard
+
         // Set list for recent purchases
         var j = 0;
         for (var i = data.length - 1; j < 8; i--) {
-            var date = data[i]["purchase_date"].substring(0, 11);
+            var date = data[i]["purchase_date"].substring(0, 10);
             var time = data[i]["purchase_date"].substring(11, 19);
             var amount = data[i]["amount"];
             var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>"
