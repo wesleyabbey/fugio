@@ -97,9 +97,9 @@ $(document).ready(function() {
         // loop through each purchase and append amounts to the labels
         var length = data.length;
         var categoryLength = categoryTotals.length;
-        var foodReg = /food/;
-        var gasReg = /gas/;
-        var rentReg = /rent/;
+        var foodReg = /food|mcdonalds|delicious|pho|bojangles|fruit|snack/;
+        var gasReg = /gas|chevron|bp|car|filled/;
+        var rentReg = /rent|utilities|home|yard|grass/;
 
 
         // Set purchase total on the Dashboard
@@ -117,7 +117,6 @@ $(document).ready(function() {
 
         for (var i = 0; i < length; i++) {
             var purchase = data[i];
-
 
             var currentDate = new Date(purchase['purchase_date'].substring(0, 19));
             var day = currentDate.getDay();
@@ -183,7 +182,7 @@ $(document).ready(function() {
             label: '$' + categoryTotals[0]["label"],
             value: categoryTotals[0]["value"]
         }, {
-            label: '$' + categoryTotals[1]["label"],
+            label: '$' + categoryTotals[1]["label"] + " & home",
             value: categoryTotals[1]["value"]
         }, {
             label: '$' + categoryTotals[2]["label"],
