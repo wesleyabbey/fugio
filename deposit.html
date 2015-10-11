@@ -71,6 +71,9 @@
                         <a href="purchase.html"><i class="fa fa-fw fa-edit"></i> Purchase</a>
                     </li>
                     <li>
+                        <a href="deposit.html"><i class="fa fa-fw fa-edit"></i> Deposit</a>
+                    </li>
+                    <li>
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
                     </li>
                 </ul>
@@ -131,16 +134,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-pie-chart fa-fw"></i> Category Spending</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-donut-chart"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="col-lg-6 col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -211,20 +205,20 @@
             var data = {
                 "merchant_id": "5619787d287f270f002fdde4",
                 "medium": "balance",
-                "purchase_date": "2015-10-11T08:04:55Z",
-                "amount": parseInt(amo),
+                "purchase_date": "2015-10-11T08-04-55Z",
+                "amount": amo,
                 "status": "pending",
                 "description": des
             };
-            console.log(JSON.stringify(data));
 
             $.ajax({
                 type: "POST",
                 url: "http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563/purchases?key=18cdc5d0c87e95621c50a23782e41559",
-                //processData: false,
+                processData: false,
                 contentType: 'application/json',
                 data: JSON.stringify(data)
             });
+            console.log('message');
             // $.post( 'http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563/purchases?key=18cdc5d0c87e95621c50a23782e41559', 
             //     {
             //         "merchant_id": "5619787d287f270f002fdde4",
