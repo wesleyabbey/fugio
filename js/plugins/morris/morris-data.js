@@ -1,18 +1,162 @@
 // Morris.js Charts sample data for SB Admin template
-console.log('testteref');
 $(document).ready(function() {
-    console.log('resding in data');
 
-    var categoryTotals = [
-    {
-        label: 'food',
+    // Bar Chart Withdrawals
+    var myDepositBar = Morris.Bar({
+        element: 'morris-bar-chart-deposit',
+        data: [{
+            day: 'Sun',
+            total: 157
+        }, {
+            day: 'Mon',
+            total: 13
+        }, {
+            day: 'Tue',
+            total: 13
+        }, {
+            day: 'Wed',
+            total: 27
+        }, {
+            day: 'Thu',
+            total: 38
+        }, {
+            day: 'Fri',
+            total: 65
+        }, {
+            day: 'Sat',
+            total: 157
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        barColors: ['red'],
+        resize: true
+    });
+
+    // Bar Chart Withdrawals
+    var myWithdrawBar = Morris.Bar({
+        element: 'morris-bar-chart-withdraw',
+        data: [{
+            day: 'Sun',
+            total: 157
+        }, {
+            day: 'Mon',
+            total: 13
+        }, {
+            day: 'Tue',
+            total: 13
+        }, {
+            day: 'Wed',
+            total: 27
+        }, {
+            day: 'Thu',
+            total: 38
+        }, {
+            day: 'Fri',
+            total: 65
+        }, {
+            day: 'Sat',
+            total: 157
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        barColors: ['green'],
+        resize: true
+    });
+
+    // Bar Chart Purchases
+    var myBar = Morris.Bar({
+        element: 'morris-bar-chart',
+        data: [{
+            day: 'Sun',
+            total: 1571
+        }, {
+            day: 'Mon',
+            total: 136
+        }, {
+            day: 'Tue',
+            total: 137
+        }, {
+            day: 'Wed',
+            total: 275
+        }, {
+            day: 'Thu',
+            total: 380
+        }, {
+            day: 'Fri',
+            total: 655
+        }, {
+            day: 'Sat',
+            total: 1571
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        resize: true
+    });
+
+
+    // Donut Chart Initialization
+    var myDonut = Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "Food",
+            value: 1
+        }, {
+            label: "Rent",
+            value: 3
+        }, {
+            label: "Uncategorized",
+            value: 2
+        }, {
+            label: "Gas",
+            value: 2
+        }],
+        resize: true
+    });
+
+    var categoryTotals = [{
+        label: 'Food',
         value: 1
     }, {
-        label: 'gas',
+        label: 'Rent',
         value: 1
     }, {
-        label: 'uncategorized',
+        label: 'Uncategorized',
         value: 1
+    }, {
+        label: 'Gas',
+        value: 1
+    }];
+
+    var weeklyTotals = [{
+        day: 'Sun',
+        total: 1
+    }, {
+        day: 'Mon',
+        total: 1
+    }, {
+        day: 'Tue',
+        total: 1
+    }, {
+        day: 'Wed',
+        total: 1
+    }, {
+        day: 'Thu',
+        total: 1
+    }, {
+        day: 'Fri',
+        total: 1
+    }, {
+        day: 'Sat',
+        total: 1
     }];
 
     $.get("http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563/purchases?key=18cdc5d0c87e95621c50a23782e41559", function(data) {
@@ -24,57 +168,98 @@ $(document).ready(function() {
         var gasReg = /gas/;
         var rentReg = /rent/;
 
+
+        // Set purchase total on the Dashboard
+        $(".pcount").text(length);
+        // Set list for recent purchases
+        var j = 0;
+        for (var i = data.length - 1; j < 8; i--) {
+            var date = data[i]["purchase_date"].substring(0, 10);
+            var time = data[i]["purchase_date"].substring(11, 19);
+            var amount = data[i]["amount"];
+            var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>"
+            $(".panel-purch tbody").append(line);
+            j++;
+        }
+
         for (var i = 0; i < length; i++) {
             var purchase = data[i];
+
+
+            var currentDate = new Date(purchase['purchase_date'].substring(0, 19));
+            var day = currentDate.getDay();
+            weeklyTotals[day]["total"] += purchase["amount"];
+
+
             if (foodReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'food') {
+                    if (categoryTotals[j].label === 'Food') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else if (rentReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'rent') {
+                    if (categoryTotals[j].label === 'Rent') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else if (gasReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'gas') {
+                    if (categoryTotals[j].label === 'Gas') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else {
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'uncategorized') {
+                    if (categoryTotals[j].label === 'Uncategorized') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             }
         }
-        console.log(categoryTotals);
-    });
 
+        myBar.setData([{
+            day: weeklyTotals[0]["day"],
+            total: weeklyTotals[0]["total"]
+        }, {
+            day: weeklyTotals[1]["day"],
+            total: weeklyTotals[1]["total"]
+        }, {
+            day: weeklyTotals[2]["day"],
+            total: weeklyTotals[2]["total"]
+        }, {
+            day: weeklyTotals[3]["day"],
+            total: weeklyTotals[3]["total"]
+        }, {
+            day: weeklyTotals[4]["day"],
+            total: weeklyTotals[4]["total"]
+        }, {
+            day: weeklyTotals[5]["day"],
+            total: weeklyTotals[5]["total"]
+        }, {
+            day: weeklyTotals[6]["day"],
+            total: weeklyTotals[6]["total"]
+        }]
 
-    // Donut Chart
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: categoryTotals[0]["label"],
+            );
+
+        myDonut.setData([{
+            label: '$' + categoryTotals[0]["label"],
             value: categoryTotals[0]["value"]
         }, {
-            label: categoryTotals[1]["label"],
+            label: '$' + categoryTotals[1]["label"],
             value: categoryTotals[1]["value"]
         }, {
-            label: categoryTotals[2]["label"],
+            label: '$' + categoryTotals[2]["label"],
             value: categoryTotals[2]["value"]
-        }],
-        resize: true
+        }, {
+            label: '$' + categoryTotals[3]["label"],
+            value: categoryTotals[3]["value"]
+        }]);
     });
-
 
     // Area Chart
     Morris.Area({
@@ -249,37 +434,5 @@ $(document).ready(function() {
         smooth: false,
         resize: true
     });
-
-    // Bar Chart
-    Morris.Bar({
-        element: 'morris-bar-chart',
-        data: [{
-            device: 'iPhone',
-            geekbench: 136
-        }, {
-            device: 'iPhone 3G',
-            geekbench: 137
-        }, {
-            device: 'iPhone 3GS',
-            geekbench: 275
-        }, {
-            device: 'iPhone 4',
-            geekbench: 380
-        }, {
-            device: 'iPhone 4S',
-            geekbench: 655
-        }, {
-            device: 'iPhone 5',
-            geekbench: 1571
-        }],
-        xkey: 'device',
-        ykeys: ['geekbench'],
-        labels: ['Geekbench'],
-        barRatio: 0.4,
-        xLabelAngle: 35,
-        hideHover: 'auto',
-        resize: true
-    });
-
 
 });
