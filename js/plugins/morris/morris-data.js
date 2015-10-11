@@ -2,7 +2,38 @@
 $(document).ready(function() {
 
 
-
+    // Bar Chart
+    var myBar = Morris.Bar({
+        element: 'morris-bar-chart',
+        data: [{
+            day: 'Sun',
+            total: 1571
+        }, {
+            day: 'Mon',
+            total: 136
+        }, {
+            day: 'Tue',
+            total: 137
+        }, {
+            day: 'Wed',
+            total: 275
+        }, {
+            day: 'Thu',
+            total: 380
+        }, {
+            day: 'Fri',
+            total: 655
+        }, {
+            day: 'Sat',
+            total: 1571
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        resize: true
+    });
 
 
     // Donut Chart Initialization
@@ -38,6 +69,29 @@ $(document).ready(function() {
         value: 1
     }];
 
+    var weeklyTotals = [{
+        day: 'Sun',
+        total: 1
+    }, {
+        day: 'Mon',
+        total: 1
+    }, {
+        day: 'Tue',
+        total: 1
+    }, {
+        day: 'Wed',
+        total: 1
+    }, {
+        day: 'Thu',
+        total: 1
+    }, {
+        day: 'Fri',
+        total: 1
+    }, {
+        day: 'Sat',
+        total: 1
+    }];
+
     $.get("http://api.reimaginebanking.com/accounts/560f0207f8d8770df0efa563/purchases?key=18cdc5d0c87e95621c50a23782e41559", function(data) {
         // Return a json object containing all the appropriate purchases
         // loop through each purchase and append amounts to the labels
@@ -47,18 +101,27 @@ $(document).ready(function() {
         var gasReg = /gas/;
         var rentReg = /rent/;
 
+
+        // Set list for recent purchases
         var j = 0;
         for (var i = data.length - 1; j < 8; i--) {
             var date = data[i]["purchase_date"].substring(0, 11);
             var time = data[i]["purchase_date"].substring(11, 19);
             var amount = data[i]["amount"];
-            var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>" 
+            var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>"
             $(".table tbody").append(line);
             j++;
         }
 
         for (var i = 0; i < length; i++) {
             var purchase = data[i];
+
+
+            var currentDate = new Date(purchase['purchase_date'].substring(0, 19));
+            var day = currentDate.getDay();
+            weeklyTotals[day]["total"] += purchase["amount"];
+
+
             if (foodReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
@@ -88,6 +151,31 @@ $(document).ready(function() {
                 }
             }
         }
+
+        myBar.setData([{
+            day: weeklyTotals[0]["day"],
+            total: weeklyTotals[0]["total"]
+        }, {
+            day: weeklyTotals[1]["day"],
+            total: weeklyTotals[1]["total"]
+        }, {
+            day: weeklyTotals[2]["day"],
+            total: weeklyTotals[2]["total"]
+        }, {
+            day: weeklyTotals[3]["day"],
+            total: weeklyTotals[3]["total"]
+        }, {
+            day: weeklyTotals[4]["day"],
+            total: weeklyTotals[4]["total"]
+        }, {
+            day: weeklyTotals[5]["day"],
+            total: weeklyTotals[5]["total"]
+        }, {
+            day: weeklyTotals[6]["day"],
+            total: weeklyTotals[6]["total"]
+        }]
+
+            );
 
         myDonut.setData([{
             label: '$' + categoryTotals[0]["label"],
@@ -277,37 +365,5 @@ $(document).ready(function() {
         smooth: false,
         resize: true
     });
-
-    // Bar Chart
-    Morris.Bar({
-        element: 'morris-bar-chart',
-        data: [{
-            device: 'iPhone',
-            geekbench: 136
-        }, {
-            device: 'iPhone 3G',
-            geekbench: 137
-        }, {
-            device: 'iPhone 3GS',
-            geekbench: 275
-        }, {
-            device: 'iPhone 4',
-            geekbench: 380
-        }, {
-            device: 'iPhone 4S',
-            geekbench: 655
-        }, {
-            device: 'iPhone 5',
-            geekbench: 1571
-        }],
-        xkey: 'device',
-        ykeys: ['geekbench'],
-        labels: ['Geekbench'],
-        barRatio: 0.4,
-        xLabelAngle: 35,
-        hideHover: 'auto',
-        resize: true
-    });
-
 
 });
