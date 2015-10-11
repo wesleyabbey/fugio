@@ -1,17 +1,36 @@
 // Morris.js Charts sample data for SB Admin template
-console.log('testteref');
 $(document).ready(function() {
-    console.log('resding in data');
 
-    var categoryTotals = [
-    {
-        label: 'food',
+    // Donut Chart Initialization
+    var myDonut = Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "Food",
+            value: 1
+        }, {
+            label: "Rent",
+            value: 3
+        }, {
+            label: "Uncategorized",
+            value: 2
+        }, {
+            label: "Gas",
+            value: 2
+        }],
+        resize: true
+    });
+
+    var categoryTotals = [{
+        label: 'Food',
         value: 1
     }, {
-        label: 'gas',
+        label: 'Rent',
         value: 1
     }, {
-        label: 'uncategorized',
+        label: 'Uncategorized',
+        value: 1
+    }, {
+        label: 'Gas',
         value: 1
     }];
 
@@ -29,40 +48,34 @@ $(document).ready(function() {
             if (foodReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'food') {
+                    if (categoryTotals[j].label === 'Food') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else if (rentReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'rent') {
+                    if (categoryTotals[j].label === 'Rent') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else if (gasReg.test(purchase["description"])) {
 
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'gas') {
+                    if (categoryTotals[j].label === 'Gas') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             } else {
                 for (var j = 0; j < categoryLength; j++) {
-                    if (categoryTotals[j].label === 'uncategorized') {
+                    if (categoryTotals[j].label === 'Uncategorized') {
                         categoryTotals[j].value += purchase["amount"];
                     }
                 }
             }
         }
-        console.log(categoryTotals);
-    });
 
-
-    // Donut Chart
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
+        myDonut.setData([{
             label: categoryTotals[0]["label"],
             value: categoryTotals[0]["value"]
         }, {
@@ -71,10 +84,11 @@ $(document).ready(function() {
         }, {
             label: categoryTotals[2]["label"],
             value: categoryTotals[2]["value"]
-        }],
-        resize: true
+        }, {
+            label: categoryTotals[3]["label"],
+            value: categoryTotals[3]["value"]
+        }]);
     });
-
 
     // Area Chart
     Morris.Area({
