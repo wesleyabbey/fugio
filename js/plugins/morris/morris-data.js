@@ -1,8 +1,75 @@
 // Morris.js Charts sample data for SB Admin template
 $(document).ready(function() {
 
+    // Bar Chart Withdrawals
+    var myDepositBar = Morris.Bar({
+        element: 'morris-bar-chart-deposit',
+        data: [{
+            day: 'Sun',
+            total: 157
+        }, {
+            day: 'Mon',
+            total: 13
+        }, {
+            day: 'Tue',
+            total: 13
+        }, {
+            day: 'Wed',
+            total: 27
+        }, {
+            day: 'Thu',
+            total: 38
+        }, {
+            day: 'Fri',
+            total: 65
+        }, {
+            day: 'Sat',
+            total: 157
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        barColors: ['red'],
+        resize: true
+    });
 
-    // Bar Chart
+    // Bar Chart Withdrawals
+    var myWithdrawBar = Morris.Bar({
+        element: 'morris-bar-chart-withdraw',
+        data: [{
+            day: 'Sun',
+            total: 157
+        }, {
+            day: 'Mon',
+            total: 13
+        }, {
+            day: 'Tue',
+            total: 13
+        }, {
+            day: 'Wed',
+            total: 27
+        }, {
+            day: 'Thu',
+            total: 38
+        }, {
+            day: 'Fri',
+            total: 65
+        }, {
+            day: 'Sat',
+            total: 157
+        }],
+        xkey: 'day',
+        ykeys: ['total'],
+        labels: ['Total Amount In Purchases'],
+        xLabelAngle: 35,
+        hideHover: 'auto',
+        barColors: ['green'],
+        resize: true
+    });
+
+    // Bar Chart Purchases
     var myBar = Morris.Bar({
         element: 'morris-bar-chart',
         data: [{
@@ -103,7 +170,7 @@ $(document).ready(function() {
 
 
         // Set purchase total on the Dashboard
-
+        $(".pcount").text(length);
         // Set list for recent purchases
         var j = 0;
         for (var i = data.length - 1; j < 8; i--) {
@@ -111,7 +178,7 @@ $(document).ready(function() {
             var time = data[i]["purchase_date"].substring(11, 19);
             var amount = data[i]["amount"];
             var line = "<tr><td>" + date + "</td><td>" + time + "</td><td>" + amount + "</td></tr>"
-            $(".table tbody").append(line);
+            $(".panel-purch tbody").append(line);
             j++;
         }
 
