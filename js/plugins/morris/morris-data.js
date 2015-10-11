@@ -97,9 +97,9 @@ $(document).ready(function() {
         // loop through each purchase and append amounts to the labels
         var length = data.length;
         var categoryLength = categoryTotals.length;
-        var foodReg = /food|mcdonalds|delicious|pho|bojangles|fruit|snack/;
+        var foodReg = /food|mcdonalds|delicious|pho|bojangles|fruit|snack|wendys|pizza/;
         var gasReg = /gas|chevron|bp|car|filled/;
-        var rentReg = /rent|utilities|home|yard|grass/;
+        var rentReg = /rent|utilities|home|yard|grass|bills|mortgage/;
 
 
         // Set purchase total on the Dashboard
