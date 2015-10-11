@@ -70,9 +70,6 @@
                     <li>
                         <a href="purchase.html"><i class="fa fa-fw fa-edit"></i> Purchase</a>
                     </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -207,6 +204,8 @@
             var $form = $( this );
             var des = $form.find( "input[id='pdesc']" ).val();
             var amo = $form.find( "input[id='pam']" ).val();
+
+            var d = new Date();
 
             var data = {
                 "merchant_id": "5619787d287f270f002fdde4",
