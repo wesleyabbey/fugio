@@ -118,9 +118,11 @@ $(document).ready(function() {
         for (var i = 0; i < length; i++) {
             var purchase = data[i];
 
-
+            console.log(i);
             var currentDate = new Date(purchase['purchase_date'].substring(0, 19));
             var day = currentDate.getDay();
+            if (weeklyTotals[day] === undefined) {continue;}
+
             weeklyTotals[day]["total"] += purchase["amount"];
 
 
