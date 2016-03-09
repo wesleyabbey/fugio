@@ -6,4 +6,4 @@ It is a currency management application that extracts and displays information u
 
 Also located at icantpaymym.org.
 
-![alt text](https://github.com/wesleyabbey/fugio/screenshot.png "View")
+![View](https://github.com/wesleyabbey/fugio/blob/master/screenshot.png)
